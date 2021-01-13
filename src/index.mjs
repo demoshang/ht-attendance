@@ -21,6 +21,11 @@ async function run() {
     formatDate("YYYYMM", defaultDate)
   );
 
+  if (!/\d{6,6}/.test(monthStr)) {
+    alert(`输入月份${monthStr}不正确`);
+    return;
+  }
+
   // 获取打卡记录
   const userNo = document.body.innerHTML.match(/loginid=(\d+)/)[1];
   const dayAttendances = await getDayAttendances(userNo, monthStr);

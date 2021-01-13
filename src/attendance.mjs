@@ -63,7 +63,11 @@ function monthAddAttendances(dayList, records) {
     transform(item);
   });
 
-  return list;
+  // 筛选小于当前时间的数据
+  const now = new Date();
+  return list.filter(({ date }) => {
+    return date < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  });
 }
 
 // 获取某个月的每日打卡状态

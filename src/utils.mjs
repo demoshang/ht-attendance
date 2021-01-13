@@ -1,5 +1,9 @@
 // 获取一个月的开始和结束
 function getMonthRange(monthStr) {
+  if (!/\d{6,6}/.test(monthStr)) {
+    throw new Error(`输入月份${monthStr}不正确`);
+  }
+
   const start = new Date(`${monthStr.slice(0, 4)}/${monthStr.slice(4)}/01`);
   const end = new Date(start.getFullYear(), start.getMonth() + 1, 0);
 

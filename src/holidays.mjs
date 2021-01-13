@@ -184,10 +184,6 @@ const holidays = {
 
 // 获取某个月每天的是否工作
 function getMonthDayList(monthStr) {
-  if (!/\d{6,6}/.test(monthStr)) {
-    throw new Error(`输入月份${monthStr}不正确`);
-  }
-
   const [start, end] = getMonthRange(monthStr);
   const dayList = [];
 

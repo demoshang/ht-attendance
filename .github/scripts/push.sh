@@ -28,7 +28,7 @@ function push() {
   git remote add action $(get_private_repo)
   git add index.html
   git commit -m "更新脚本" || true
-  git push action dev:gh-pages
+  git push action dev:gh-pages -f
 }
 
 push

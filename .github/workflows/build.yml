@@ -27,11 +27,11 @@ jobs:
           npm install
           npm run build --if-present
 
-      - name: build readme
+      - name: build gh-pages
         working-directory: ./
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
         run: |
-          node .github/scripts/readme-replace.js
+          node .github/scripts/replace.js
           bash .github/scripts/push.sh

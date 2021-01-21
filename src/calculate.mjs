@@ -50,7 +50,7 @@ function calculate(dayAttendances, h = 9) {
 
   addMinutes = toNu(addMillSeconds / MILL_SECONDS_MINUTES);
   needMinutes = toNu(needMillSeconds / MILL_SECONDS_MINUTES);
-  realMinutes = toNu(realMillSeconds / MILL_SECONDS_HOURS);
+  realMinutes = toNu(realMillSeconds / MILL_SECONDS_MINUTES);
 
   const restMinutes = toNu(
     (realMillSeconds + addMillSeconds - needMillSeconds) / MILL_SECONDS_MINUTES

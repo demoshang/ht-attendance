@@ -30,8 +30,14 @@ async function run() {
   const userNo = document.body.innerHTML.match(/loginid=(\d+)/)[1];
   const dayAttendances = await getDayAttendances(userNo, monthStr);
 
+  const monthValue = parseInt(monthStr, 10);
+
   // 计算本月打卡
-  const { raw, formatted } = calculate(dayAttendances);
+  const { raw, formatted } = calculate(
+    dayAttendances,
+    // 11月到2月 冬令时, 每天工作9小时, 其它为夏令时, 工作9.5小时
+    monthValue <= 2 && monthValue >= 11 ? 9 : 9.5
+  );
   console.log("==================", { raw, formatted });
 
   // 弹出框输出内容

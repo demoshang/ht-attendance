@@ -1,4 +1,4 @@
-import { toNu } from "./utils";
+import { toNu, formatDate } from "./utils";
 
 // 计算工时, 按照每日 9小时计算(即包含中午一小时休息)
 function calculate(dayAttendances, h = 9) {
@@ -15,9 +15,16 @@ function calculate(dayAttendances, h = 9) {
   let absenteeismDate = [];
   // 加班列表
   let overtimeList = [];
+  // 今日打卡数据
+  let todayRecord = {};
 
   const MILL_SECONDS_HOURS = 60 * 60 * 1000;
   const MILL_SECONDS_MINUTES = 60 * 1000;
+  const TODAY = formatDate("YYYY-MM-DD");
+
+  if (dayAttendances[dayAttendances.length - 1]?.dateStr === TODAY) {
+    todayRecord = dayAttendances.pop();
+  }
 
   dayAttendances.forEach((item) => {
     const { isWorkday, dateStr, workMillSeconds } = item;
@@ -56,8 +63,15 @@ function calculate(dayAttendances, h = 9) {
     (realMillSeconds + addMillSeconds - needMillSeconds) / MILL_SECONDS_MINUTES
   );
 
+  const todayRecordTime = [todayRecord.startStr, todayRecord.endStr]
+    .filter((v) => {
+      return v;
+    })
+    .join("~~~~");
+
   return {
     raw: {
+      todayRecord,
       dayAttendances,
 
       absenteeismList,
@@ -73,6 +87,11 @@ function calculate(dayAttendances, h = 9) {
       restMinutes,
     },
     formatted: {
+      今日打卡: todayRecord.isWorkday
+        ? todayRecordTime
+          ? todayRecordTime
+          : "无打卡记录"
+        : "非工作日",
       缺勤: absenteeismDate.length ? absenteeismDate.join(", ") : "无",
       加班: `${addMinutes}分钟 ~= ${addHours}小时 ~= ${toNu(addHours / h)}天`,
       应工作: `${needMinutes}分钟 ~= ${needHours}小时 ~= ${toNu(

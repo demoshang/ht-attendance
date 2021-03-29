@@ -15,9 +15,9 @@ async function run() {
 
   // 输入查询月份
   let defaultDate = new Date();
-  defaultDate.setMonth(defaultDate.getMonth() - 1);
+  defaultDate.setMonth(defaultDate.getMonth());
   const monthStr = prompt(
-    "请输入计算月份, 如 202012, 确定后请等待3秒左右",
+    "请输入计算月份, 如 202101, 确定后请等待3秒左右",
     formatDate("YYYYMM", defaultDate)
   );
 

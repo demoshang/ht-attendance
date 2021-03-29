@@ -21,12 +21,7 @@ function transform(item) {
   item.end = arr.pop();
   item.endStr = formatDate("YYYY-MM-DD HH:mm:ss", item.end);
 
-  if (
-    !item.start ||
-    !item.end ||
-    item.start.getHours() > 10 ||
-    item.end.getHours() < 12
-  ) {
+  if (!item.start || !item.end) {
     item.workMillSeconds = 0;
     return;
   }
@@ -63,10 +58,12 @@ function monthAddAttendances(dayList, records) {
     transform(item);
   });
 
-  // 筛选小于当前时间的数据
+  // 筛选小于今天的
   const now = new Date();
   return list.filter(({ date }) => {
-    return date < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return (
+      date < new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+    );
   });
 }
 

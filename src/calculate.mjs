@@ -16,7 +16,7 @@ function calculate(dayAttendances, h = 9) {
   // 加班列表
   let overtimeList = [];
   // 今日打卡数据
-  let todayRecord = {};
+  let todayRecord = undefined;
 
   const MILL_SECONDS_HOURS = 60 * 60 * 1000;
   const MILL_SECONDS_MINUTES = 60 * 1000;
@@ -63,49 +63,58 @@ function calculate(dayAttendances, h = 9) {
     (realMillSeconds + addMillSeconds - needMillSeconds) / MILL_SECONDS_MINUTES
   );
 
-  const todayRecordTime = [todayRecord.startStr, todayRecord.endStr]
-    .filter((v) => {
-      return v;
-    })
-    .join("~~~~");
+  const raw = {
+    todayRecord,
+    dayAttendances,
+
+    absenteeismList,
+    absenteeismDate,
+    overtimeList,
+    addHours,
+    needHours,
+    realHours,
+
+    addMinutes,
+    needMinutes,
+    realMinutes,
+    restMinutes,
+  };
+
+  const formatted = {
+    今日打卡: "",
+    缺勤: absenteeismDate.length ? absenteeismDate.join(", ") : "无",
+    加班: `${addMinutes}分钟 ~= ${addHours}小时 ~= ${toNu(addHours / h)}天`,
+    应工作: `${needMinutes}分钟 ~= ${needHours}小时 ~= ${toNu(
+      needHours / h
+    )}天`,
+    实际: `${realMinutes}分钟 ~= ${realHours}小时 ~= ${toNu(realHours / h)}天`,
+    "实际+加班-应工作": `${restMinutes}分钟 ~= ${toNu(
+      restMinutes / 60
+    )} 小时 ~= ${toNu(restMinutes / 60 / (h - 1))}天  (按照每天工作${
+      h - 1
+    }小时)`,
+  };
+
+  // 如果今日在查询返回结果内, 同时显示今日打卡状态
+  if (todayRecord) {
+    const todayRecordTime = [todayRecord?.startStr, todayRecord?.endStr]
+      .filter((v) => {
+        return v;
+      })
+      .join("~~~~");
+
+    formatted["今日打卡"] = todayRecord.isWorkday
+      ? todayRecordTime
+        ? todayRecordTime
+        : "未查询到打卡记录"
+      : "非工作日";
+  } else {
+    delete formatted["今日打卡"];
+  }
 
   return {
-    raw: {
-      todayRecord,
-      dayAttendances,
-
-      absenteeismList,
-      absenteeismDate,
-      overtimeList,
-      addHours,
-      needHours,
-      realHours,
-
-      addMinutes,
-      needMinutes,
-      realMinutes,
-      restMinutes,
-    },
-    formatted: {
-      今日打卡: todayRecord.isWorkday
-        ? todayRecordTime
-          ? todayRecordTime
-          : "无打卡记录"
-        : "非工作日",
-      缺勤: absenteeismDate.length ? absenteeismDate.join(", ") : "无",
-      加班: `${addMinutes}分钟 ~= ${addHours}小时 ~= ${toNu(addHours / h)}天`,
-      应工作: `${needMinutes}分钟 ~= ${needHours}小时 ~= ${toNu(
-        needHours / h
-      )}天`,
-      实际: `${realMinutes}分钟 ~= ${realHours}小时 ~= ${toNu(
-        realHours / h
-      )}天`,
-      "实际+加班-应工作": `${restMinutes}分钟 ~= ${toNu(
-        restMinutes / 60
-      )} 小时 ~= ${toNu(restMinutes / 60 / (h - 1))}天  (按照每天工作${
-        h - 1
-      }小时)`,
-    },
+    raw,
+    formatted,
   };
 }
 

@@ -17,9 +17,11 @@ function transform(item) {
   let arr = [...attendance];
 
   item.start = arr.shift();
-  item.startStr = formatDate("YYYY-MM-DD HH:mm:ss", item.start);
+  item.startStr = item.start
+    ? formatDate("YYYY-MM-DD HH:mm:ss", item.start)
+    : "";
   item.end = arr.pop();
-  item.endStr = formatDate("YYYY-MM-DD HH:mm:ss", item.end);
+  item.endStr = item.end ? formatDate("YYYY-MM-DD HH:mm:ss", item.end) : "";
 
   if (!item.start || !item.end) {
     item.workMillSeconds = 0;

@@ -35,8 +35,8 @@ async function run() {
   // 计算本月打卡
   const { raw, formatted } = calculate(
     dayAttendances,
-    // 11月到2月 冬令时, 每天工作9小时, 其它为夏令时, 工作9.5小时
-    monthValue <= 2 && monthValue >= 11 ? 9 : 9.5
+    // 11月到2月 冬令时, 每天工作9.5小时, 其它为夏令时, 工作10小时
+    monthValue <= 2 && monthValue >= 11 ? 9.5 : 10
   );
   console.log("==================", { raw, formatted });
 

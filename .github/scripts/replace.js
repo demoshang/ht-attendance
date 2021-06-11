@@ -12,13 +12,20 @@ const inputFilePath = pathResolve(__dirname, "../../index.html");
 const outFilePath = pathResolve(__dirname, "../../index.html");
 
 async function getBuildVersion() {
-  const { stdout: currentBranch, stderr } = await exec(
+  const { stdout: currentBranch } = await exec(
     `git rev-parse --abbrev-ref HEAD`
   );
 
-  const { stdout: currentHead } = await exec(`git rev-parse HEAD`);
+  const { stdout: currentHead } = await exec(`git rev-parse --short HEAD`);
 
-  return `${currentBranch.trim()}<br>${new Date().toISOString()}<br>${currentHead.trim()}`;
+  const { stdout: lastMsg } = await exec(
+    `git log --pretty=format:"%s &nbsp;&nbsp;&nbsp;&nbsp; %ai" -3`
+  );
+
+  return `${currentBranch.trim()} &nbsp;&nbsp;&nbsp;&nbsp; ${currentHead.trim()}<br>${lastMsg.replace(
+    /[\r\n]+/g,
+    "<br>"
+  )}`;
 }
 
 (async () => {

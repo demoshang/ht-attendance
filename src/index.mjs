@@ -39,7 +39,7 @@ async function run() {
 
   // 弹出框输出内容
   const result = Object.keys(formatted).reduce((r, key) => {
-    r += `${key.padEnd(6, ' ')}${formatted[key]}\r`;
+    r += `${key.padEnd(6, '　')}${formatted[key]}\r`;
 
     return r;
   }, "");

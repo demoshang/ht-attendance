@@ -1,7 +1,9 @@
-import { toNu, formatDate } from "./utils";
+import { formatDate, toNu } from "./utils";
 
-// 计算工时, 按照每日 9小时计算(即包含中午一小时休息)
-function calculate(dayAttendances, h = 9) {
+// 计算工时, 按照每日 h 小时计算(即包含休息时间)
+function calculate(dayAttendances, workHour = 8, breakHour = 2) {
+  const h = workHour + breakHour;
+
   // 应该需要工作
   let needMillSeconds = 0;
   // 实际工作
@@ -80,19 +82,17 @@ function calculate(dayAttendances, h = 9) {
     restMinutes,
   };
 
+  const restHours = toNu(restMinutes / 60);
+
   const formatted = {
     今日打卡: "",
     缺勤: absenteeismDate.length ? absenteeismDate.join(", ") : "无",
     加班: `${addMinutes}分钟 ~= ${addHours}小时 ~= ${toNu(addHours / h)}天`,
     应工作: `${needMinutes}分钟 ~= ${needHours}小时 ~= ${toNu(
       needHours / h
-    )}天`,
+    )}天 (${workHour}工作小时 + ${breakHour} 休息小时)`,
     实际: `${realMinutes}分钟 ~= ${realHours}小时 ~= ${toNu(realHours / h)}天`,
-    "实际+加班-应工作": `${restMinutes}分钟 ~= ${toNu(
-      restMinutes / 60
-    )} 小时 ~= ${toNu(restMinutes / 60 / (h - 1))}天  (按照每天工作${
-      h - 1
-    }小时)`,
+    月盈亏: `${restMinutes}分钟 ~= ${restHours} 小时 `,
   };
 
   // 如果今日在查询返回结果内, 同时显示今日打卡状态

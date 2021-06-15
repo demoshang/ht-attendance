@@ -30,19 +30,16 @@ async function run() {
   const userNo = document.body.innerHTML.match(/loginid=(\d+)/)[1];
   const dayAttendances = await getDayAttendances(userNo, monthStr);
 
-  const monthValue = parseInt(monthStr, 10);
+  const workHour = 8; // 每日工作时间
+  const breakHour = 2; // 中午1.5 + 晚上 0.5
 
   // 计算本月打卡
-  const { raw, formatted } = calculate(
-    dayAttendances,
-    // 11月到2月 冬令时, 每天工作9.5小时, 其它为夏令时, 工作10小时
-    monthValue <= 2 && monthValue >= 11 ? 9.5 : 10
-  );
+  const { raw, formatted } = calculate(dayAttendances, workHour, breakHour);
   console.log("==================", { raw, formatted });
 
   // 弹出框输出内容
   const result = Object.keys(formatted).reduce((r, key) => {
-    r += `${key.padEnd(12)}${formatted[key]}\r`;
+    r += `${key.padEnd(6, ' ')}${formatted[key]}\r`;
 
     return r;
   }, "");

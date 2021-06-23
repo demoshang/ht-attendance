@@ -27,7 +27,10 @@ async function run() {
   }
 
   // 获取打卡记录
-  const userNo = document.body.innerHTML.match(/loginid=(\d+)/)[1];
+  const userNo = document
+    .querySelector(".wea-watremark-mark")
+    .innerText.match(/\d{10,10}/)[0];
+
   const dayAttendances = await getDayAttendances(userNo, monthStr);
 
   const workHour = 8; // 每日工作时间
@@ -39,7 +42,7 @@ async function run() {
 
   // 弹出框输出内容
   const result = Object.keys(formatted).reduce((r, key) => {
-    r += `${key.padEnd(6, '　')}${formatted[key]}\r`;
+    r += `${key.padEnd(6, "　")}${formatted[key]}\r`;
 
     return r;
   }, "");

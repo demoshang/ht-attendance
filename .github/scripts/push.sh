@@ -27,6 +27,7 @@ function get_private_repo() {
 function push() {
   git remote add action $(get_private_repo)
   git add index.html
+  git add latest.js
   git commit -m "更新脚本" || true
   git push action dev:gh-pages -f
 }

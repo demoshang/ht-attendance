@@ -1,4 +1,4 @@
-import { getMonthRange, formatDate } from "./utils";
+import { getMonthRange, formatDate } from "./utils.mjs";
 
 // 2021节假日, 包含周末
 // 每年需要更新

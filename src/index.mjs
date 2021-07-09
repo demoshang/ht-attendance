@@ -1,8 +1,9 @@
-import { getDayAttendances } from "./attendance";
-import { calculate } from "./calculate";
-import { formatDate } from "./utils";
+import { getDayAttendances } from "./attendance.mjs";
+import { calculate } from "./calculate.mjs";
+import { formatDate } from "./utils.mjs";
+import { render } from "./render.mjs";
 
-async function run() {
+async function init() {
   // 检查当前页面是否可以查询打卡记录
   const href = location.href;
   if (!href.includes("oa.hengtonggroup.com.cn")) {
@@ -33,6 +34,18 @@ async function run() {
 
   const dayAttendances = await getDayAttendances(userNo, monthStr);
 
+  return {
+    dayAttendances,
+    userNo,
+    monthStr,
+  };
+}
+
+async function mock() {}
+
+async function run() {
+  const { dayAttendances } = await init();
+
   const workHour = 8; // 每日工作时间
   const breakHour = 2; // 中午1.5 + 晚上 0.5
 
@@ -42,11 +55,14 @@ async function run() {
 
   // 弹出框输出内容
   const result = Object.keys(formatted).reduce((r, key) => {
-    r += `${key.padEnd(6, "　")}${formatted[key]}\r`;
+    r += `${key.padEnd(6, "　")}${formatted[key]}\r<br>`;
 
     return r;
-  }, "");
-  alert(result);
+  }, "<br>");
+
+  render(raw.dayAttendances, result);
+
+  // alert(result);
 }
 
 run();

@@ -1,4 +1,4 @@
-import { formatDate, toNu } from "./utils";
+import { formatDate, toNu } from "./utils.mjs";
 
 // 计算工时, 按照每日 h 小时计算(即包含休息时间)
 function calculate(dayAttendances, workHour = 8, breakHour = 2) {
@@ -53,13 +53,13 @@ function calculate(dayAttendances, workHour = 8, breakHour = 2) {
     }
   });
 
-  addHours = toNu(addMillSeconds / MILL_SECONDS_HOURS);
-  needHours = toNu(needMillSeconds / MILL_SECONDS_HOURS);
-  realHours = toNu(realMillSeconds / MILL_SECONDS_HOURS);
+  const addHours = toNu(addMillSeconds / MILL_SECONDS_HOURS);
+  const needHours = toNu(needMillSeconds / MILL_SECONDS_HOURS);
+  const realHours = toNu(realMillSeconds / MILL_SECONDS_HOURS);
 
-  addMinutes = toNu(addMillSeconds / MILL_SECONDS_MINUTES);
-  needMinutes = toNu(needMillSeconds / MILL_SECONDS_MINUTES);
-  realMinutes = toNu(realMillSeconds / MILL_SECONDS_MINUTES);
+  const addMinutes = toNu(addMillSeconds / MILL_SECONDS_MINUTES);
+  const needMinutes = toNu(needMillSeconds / MILL_SECONDS_MINUTES);
+  const realMinutes = toNu(realMillSeconds / MILL_SECONDS_MINUTES);
 
   const restMinutes = toNu(
     (realMillSeconds + addMillSeconds - needMillSeconds) / MILL_SECONDS_MINUTES

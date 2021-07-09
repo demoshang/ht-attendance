@@ -10,6 +10,7 @@ const exec = promisify(originExec);
 const scriptFilePath = pathResolve(__dirname, "../../dist/index.js");
 const inputFilePath = pathResolve(__dirname, "../../index.html");
 const outFilePath = pathResolve(__dirname, "../../index.html");
+const outJS = pathResolve(__dirname, "../../latest.js");
 
 async function getBuildVersion() {
   const { stdout: currentBranch } = await exec(
@@ -34,10 +35,12 @@ async function getBuildVersion() {
 
   const version = await getBuildVersion();
 
+  await writeFile(outJS, script);
+
   await writeFile(
     outFilePath,
     input
-      .replace("__INJECT_DIST__", script.trim())
+      // .replace("__INJECT_DIST__", script.trim())
       .replace("__INJECT_VERSION__", version)
   );
 })();

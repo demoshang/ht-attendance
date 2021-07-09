@@ -1,4 +1,4 @@
-import { getMonthDayList } from "./holidays";
+import { getMonthDayList } from "./holidays.mjs";
 import { formatDate, getMonthRange } from "./utils.mjs";
 
 // 获取签到记录, 同源限制

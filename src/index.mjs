@@ -44,7 +44,12 @@ async function init() {
 async function mock() {}
 
 async function run() {
-  const { dayAttendances } = await init();
+  const v = await init();
+  if (!v) {
+    return;
+  }
+
+  const { dayAttendances } = v;
 
   const workHour = 8; // 每日工作时间
   const breakHour = 2; // 中午1.5 + 晚上 0.5

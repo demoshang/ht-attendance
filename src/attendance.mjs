@@ -23,7 +23,8 @@ function transform(item) {
   item.end = arr.pop();
   item.endStr = item.end ? formatDate("YYYY-MM-DD HH:mm:ss", item.end) : "";
 
-  if (!item.start || !item.end) {
+  // 打卡缺失 或者 早上晚于10点
+  if (!item.start || !item.end || item.start.getHours() >= 10) {
     item.workMillSeconds = 0;
     return;
   }

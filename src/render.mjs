@@ -18,11 +18,7 @@ function formatDate(fmt, date = new Date()) {
   return fmt;
 }
 
-function table(arr, columns, rowAddFn, classPrefix = "ht-attendance") {
-  const keys = columns.map(({ dataIndex }) => {
-    return dataIndex;
-  });
-
+function table(arr, columns, rowAddFn) {
   return `
 <table class="table table-bordered align-middle">
   <thead>
@@ -76,18 +72,33 @@ function append(ele) {
   }
 }
 
-function addCss(url, { id } = {}) {
+function addAttr(ele, { id, className } = {}) {
+  if (id) {
+    ele.id = id;
+  }
+
+  if (className) {
+    ele.classList.remove(className);
+    ele.classList.add(className);
+  }
+}
+
+function addCss(url, attr) {
   const link = document.createElement("link");
   link.setAttribute("rel", "stylesheet");
   link.setAttribute("type", "text/css");
   link.setAttribute("href", url);
+
+  addAttr(link, attr);
   append(link);
 }
 
-function addScript(url) {
+function addScript(url, attr) {
   const script = document.createElement("script");
   script.setAttribute("type", "text/javascript");
   script.setAttribute("src", url);
+  addAttr(script, attr);
+
   append(script);
 }
 
@@ -122,97 +133,222 @@ function wrap2document(html, { id, className, tag = "div" } = {}) {
   }
 }
 
-function render(result, insert) {
-  const cssId = "ht-attendance-bootstrap";
+const columns = [
+  { title: "日期", dataIndex: "dateStr" },
+  {
+    title: "星期",
+    dataIndex: "dateStr",
+    render: (v) => {
+      return "日一二三四五六".charAt(new Date(v).getDay());
+    },
+  },
+  {
+    title: "是否为工作日",
+    dataIndex: "isWorkday",
+    render: (v) => {
+      return v ? "是" : "否";
+    },
+  },
+  {
+    title: "工作时长(小时)",
+    dataIndex: "workMillSeconds",
+    render: (v) => {
+      if (v === 0) {
+        return "";
+      }
+
+      const [h1, h2] = (v / (1 * 60 * 60 * 1000)).toFixed(2).split(".");
+
+      return `${h1}小时${((parseInt(h2) * 60) / 100).toFixed(0)}分钟`;
+    },
+  },
+  {
+    title: "打卡开始",
+    dataIndex: "startStr",
+    render: (v) => {
+      return v.substring(11);
+    },
+  },
+  {
+    title: "打卡结束",
+    dataIndex: "endStr",
+    render: (v) => {
+      return v.substring(11);
+    },
+  },
+  {
+    title: "打卡记录",
+    dataIndex: "attendance",
+    width: 150,
+    render: (v) => {
+      if (!v.length) {
+        return "";
+      }
+
+      return `
+<details>
+<summary>详情</summary>
+${v
+  .map((time) => {
+    return new Date(time);
+  })
+  .map((date) => {
+    return formatDate("hh:mm:ss", date);
+  })
+  .join("<br>")}
+</details>
+    `;
+    },
+  },
+];
+
+const lineBackground = (item) => {
+  if (item.workMillSeconds === 0 && item.isWorkday) {
+    return `style="background: #EA868F"`;
+  } else if (item.workMillSeconds === 0 && !item.isWorkday) {
+    return `style="background: #F8F9FA"`;
+  } else if (item.workMillSeconds < 10 * 60 * 60 * 1000) {
+    return `style="background: #FFF3CD"`;
+  }
+};
+
+function summation({
+  todayStr,
+  absenteeismList,
+  absenteeismStr,
+  overtimeStr,
+  overtimeList,
+  needStr,
+  realStr,
+  restStr,
+}) {
+  // 今日
+  let todayHtml = "";
+  if (todayStr) {
+    todayHtml = `
+  <div class="row">
+    <div class="col-3">
+    今日打卡
+    </div>
+    <div class="col">
+      ${todayStr}
+    </div>
+  </div>
+`;
+  }
+
+  // 旷工
+  let absenteeismHtml = `
+<div class="row">
+  <div class="col-3">
+  缺勤
+  </div>
+  <div class="col">
+
+  <div style="padding: 0;" class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#absenteeismCollapse" aria-expanded="false" aria-controls="absenteeismCollapse">${absenteeismStr
+    .split(",")
+    .join("&nbsp;&nbsp;&nbsp;")}</div>
+
+  <div class="collapse" id="absenteeismCollapse">
+    ${table(
+      absenteeismList,
+      [{ title: "缺勤详细", dataIndex: "dateStr" }, ...columns.slice(1)],
+      lineBackground
+    )}
+  </div>
+
+  </div>
+</div>
+`;
+
+  // 加班
+  let overtimeHtml = `
+  <div class="row">
+    <div class="col-3">
+    加班
+    </div>
+    <div class="col">
+  
+    <div style="padding: 0;" class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#overtimeCollapse" aria-expanded="false" aria-controls="overtimeCollapse">${overtimeStr
+      .split(",")
+      .join("&nbsp;&nbsp;&nbsp;")}</div>
+  
+    <div class="collapse" id="overtimeCollapse">
+      ${table(
+        overtimeList,
+        [{ title: "加班详细", dataIndex: "dateStr" }, ...columns.slice(1)],
+        lineBackground
+      )}
+    </div>
+  
+    </div>
+  </div>
+  `;
+
+  // 月盈亏
+  let restHtml = `
+<div class="row">
+  <div class="col-3">
+  月盈亏 ( =实际工作 - 应该工作 )
+  </div>
+  <div class="col">
+    ${restStr}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-3">
+  实际工作
+  </div>
+  <div class="col">
+  ${realStr}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-3">
+  应该工作
+  </div>
+  <div class="col">
+  ${needStr}
+  </div>
+</div>
+`;
+
+  return `
+<div class="container">
+  ${todayHtml}
+  ${restHtml}
+  ${absenteeismHtml}
+  ${overtimeHtml}
+</div>
+`;
+}
+
+function render(result) {
+  const { dayAttendances } = result;
+
+  const cssId = "ht-attendance-bootstrap-css";
 
   if (!document.querySelector(`#${cssId}`)) {
     addCss(
       "https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css",
       { id: cssId }
     );
+
+    addScript(
+      "https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.min.js"
+    );
   }
 
-  const html = table(
-    result.reverse(),
-    [
-      { title: "日期", dataIndex: "dateStr" },
-      {
-        title: "星期",
-        dataIndex: "dateStr",
-        render: (v) => {
-          return "日一二三四五六".charAt(new Date(v).getDay());
-        },
-      },
-      {
-        title: "是否为工作日",
-        dataIndex: "isWorkday",
-        render: (v) => {
-          return v ? "是" : "否";
-        },
-      },
-      {
-        title: "工作时长(小时)",
-        dataIndex: "workMillSeconds",
-        render: (v) => {
-          if (v === 0) {
-            return "";
-          }
+  const tableHtml = table(dayAttendances, columns, lineBackground);
 
-          const [h1, h2] = (v / (1 * 60 * 60 * 1000)).toFixed(2).split(".");
-
-          return `${h1}小时${((parseInt(h2) * 60) / 100).toFixed(0)}分钟`;
-        },
-      },
-      {
-        title: "打卡开始",
-        dataIndex: "startStr",
-        render: (v) => {
-          return v.substring(11);
-        },
-      },
-      {
-        title: "打卡结束",
-        dataIndex: "endStr",
-        render: (v) => {
-          return v.substring(11);
-        },
-      },
-      {
-        title: "打卡记录",
-        dataIndex: "attendance",
-        width: 150,
-        render: (v) => {
-          if (!v.length) {
-            return "";
-          }
-
-          return `
-  <details>
-  <summary>详情</summary>
-  ${v
-    .map((time) => {
-      return new Date(time);
-    })
-    .map((date) => {
-      return formatDate("hh:mm:ss", date);
-    })
-    .join("<br>")}
-  </details>
-        `;
-        },
-      },
-    ],
-    (item) => {
-      if (item.workMillSeconds === 0 && item.isWorkday) {
-        return `style="background: #EA868F"`;
-      } else if (item.workMillSeconds === 0 && !item.isWorkday) {
-        return `style="background: #F8F9FA"`;
-      } else if (item.workMillSeconds < 10 * 60 * 60 * 1000) {
-        return `style="background: #FFF3CD"`;
-      }
-    }
+  wrap2document(
+    `${summation(result)}
+  <br>
+  ${tableHtml}`,
+    { id: "ht-attendance" }
   );
-  wrap2document(insert + "<br>" + html, { id: "ht-attendance" });
 }
 
 export { render };

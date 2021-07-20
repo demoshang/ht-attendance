@@ -43,13 +43,11 @@ function calculate(dayAttendances, workHour = 8, breakHour = 2) {
         absenteeismDate.push(dateStr);
         absenteeismList.push(item);
       }
-    } else {
-      // 加班
+    }
+    // 加班
+    else if (workMillSeconds > 0) {
       addMillSeconds += workMillSeconds;
-
-      if (workMillSeconds > 0) {
-        overtimeList.push(item);
-      }
+      overtimeList.push(item);
     }
   });
 
@@ -62,39 +60,12 @@ function calculate(dayAttendances, workHour = 8, breakHour = 2) {
   const realMinutes = toNu(realMillSeconds / MILL_SECONDS_MINUTES);
 
   const restMinutes = toNu(
-    (realMillSeconds + addMillSeconds - needMillSeconds) / MILL_SECONDS_MINUTES
+    (realMillSeconds - needMillSeconds) / MILL_SECONDS_MINUTES
   );
-
-  const raw = {
-    todayRecord,
-    dayAttendances,
-
-    absenteeismList,
-    absenteeismDate,
-    overtimeList,
-    addHours,
-    needHours,
-    realHours,
-
-    addMinutes,
-    needMinutes,
-    realMinutes,
-    restMinutes,
-  };
 
   const restHours = toNu(restMinutes / 60);
 
-  const formatted = {
-    今日打卡: "",
-    缺勤: absenteeismDate.length ? absenteeismDate.join(", ") : "无",
-    加班: `${addMinutes}分钟 ~= ${addHours}小时 ~= ${toNu(addHours / h)}天`,
-    应工作: `${needMinutes}分钟 ~= ${needHours}小时 ~= ${toNu(
-      needHours / h
-    )}天 (${workHour}工作小时 + ${breakHour} 休息小时)`,
-    实际: `${realMinutes}分钟 ~= ${realHours}小时 ~= ${toNu(realHours / h)}天`,
-    月盈亏: `${restMinutes}分钟 ~= ${restHours} 小时 `,
-  };
-
+  let todayStr = undefined;
   // 如果今日在查询返回结果内, 同时显示今日打卡状态
   if (todayRecord) {
     const todayRecordTime = [todayRecord?.startStr, todayRecord?.endStr]
@@ -103,19 +74,52 @@ function calculate(dayAttendances, workHour = 8, breakHour = 2) {
       })
       .join("~~~~");
 
-    formatted["今日打卡"] = todayRecord.isWorkday
+    todayStr = todayRecord.isWorkday
       ? todayRecordTime
         ? todayRecordTime
         : "未查询到打卡记录"
       : "非工作日";
-  } else {
-    delete formatted["今日打卡"];
   }
 
-  return {
-    raw,
-    formatted,
+  const raw = {
+    dayAttendances,
+
+    // 今日打卡
+    todayRecord,
+    todayStr,
+
+    // 缺勤
+    absenteeismList,
+    absenteeismDate,
+    absenteeismStr: absenteeismDate.length ? absenteeismDate.join(", ") : "无",
+
+    // 加班
+    overtimeList,
+    addHours,
+    addMinutes,
+    overtimeStr: `${addMinutes}分钟 ~= ${addHours}小时 ~= ${toNu(
+      addHours / h
+    )}天`,
+
+    // 应该工作
+    needHours,
+    needMinutes,
+    needStr: `${needMinutes}分钟 ~= ${needHours}小时 ~= ${toNu(
+      needHours / h
+    )}天 (${workHour}工作小时 + ${breakHour} 休息小时)`,
+
+    // 实际工作
+    realHours,
+    realMinutes,
+    realStr: `${realMinutes}分钟 ~= ${realHours}小时 ~= ${toNu(
+      realHours / h
+    )}天`,
+
+    restMinutes,
+    restStr: `${restMinutes}分钟 ~= ${restHours} 小时 `,
   };
+
+  return raw;
 }
 
 export { calculate };

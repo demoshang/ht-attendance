@@ -41,8 +41,6 @@ async function init() {
   };
 }
 
-async function mock() {}
-
 async function run() {
   const v = await init();
   if (!v) {
@@ -55,17 +53,10 @@ async function run() {
   const breakHour = 2; // 中午1.5 + 晚上 0.5
 
   // 计算本月打卡
-  const { raw, formatted } = calculate(dayAttendances, workHour, breakHour);
-  console.log("==================", { raw, formatted });
+  const raw = calculate(dayAttendances, workHour, breakHour);
+  console.log("==================", raw);
 
-  // 弹出框输出内容
-  const result = Object.keys(formatted).reduce((r, key) => {
-    r += `${key.padEnd(6, "　")}${formatted[key]}\r<br>`;
-
-    return r;
-  }, "<br>");
-
-  render(raw.dayAttendances, result);
+  render(raw);
 
   // alert(result);
 }

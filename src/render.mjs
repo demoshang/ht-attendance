@@ -122,7 +122,7 @@ function wrap2document(html, { id, className, tag = "div" } = {}) {
     ele.id = id;
   }
   ele.innerHTML = `
-  <div style="display: flex;justify-content: flex-end;"><Button class="btn" onClick="document.body.removeChild(document.querySelector('#${id}'))"> 关闭 </Button></div>
+  <div style="display: flex;justify-content: flex-end; position: fixed; top: 10px; right: 60px;"><Button class="btn btn-secondary" onClick="document.body.removeChild(document.querySelector('#${id}'))"> 关闭 </Button></div>
   ${html}
   `;
 
@@ -203,13 +203,17 @@ ${v
 ];
 
 const lineBackground = (item) => {
-  if (item.workMillSeconds === 0 && item.isWorkday) {
+  if (item.workMillSeconds > 0 && !item.isWorkday) {
+    return `style="background: #20c997"`;
+  } else if (item.workMillSeconds === 0 && item.isWorkday) {
     return `style="background: #EA868F"`;
   } else if (item.workMillSeconds === 0 && !item.isWorkday) {
     return `style="background: #F8F9FA"`;
   } else if (item.workMillSeconds < 10 * 60 * 60 * 1000) {
     return `style="background: #FFF3CD"`;
   }
+
+  return "";
 };
 
 function summation({
@@ -245,9 +249,15 @@ function summation({
   </div>
   <div class="col">
 
-  <div style="padding: 0;" class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#absenteeismCollapse" aria-expanded="false" aria-controls="absenteeismCollapse">${absenteeismStr
+  ${absenteeismList?.length ? "" : absenteeismStr}
+
+
+  <div style="padding: 0; display: ${
+    absenteeismList?.length ? "inline-block" : "none"
+  }" class="btn btn-link text-danger" type="button" data-bs-toggle="collapse" data-bs-target="#absenteeismCollapse" aria-expanded="false" aria-controls="absenteeismCollapse"> ${absenteeismStr
     .split(",")
-    .join("&nbsp;&nbsp;&nbsp;")}</div>
+    .join("&nbsp;&nbsp;&nbsp;")}
+  </div>
 
   <div class="collapse" id="absenteeismCollapse">
     ${table(
@@ -268,10 +278,13 @@ function summation({
     加班
     </div>
     <div class="col">
+      ${overtimeList?.length ? "" : overtimeStr}
   
-    <div style="padding: 0;" class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#overtimeCollapse" aria-expanded="false" aria-controls="overtimeCollapse">${overtimeStr
-      .split(",")
-      .join("&nbsp;&nbsp;&nbsp;")}</div>
+    <div style="padding: 0; display: ${
+      overtimeList?.length ? "inline-block" : "none"
+    }" class="btn btn-link text-success" type="button" data-bs-toggle="collapse" data-bs-target="#overtimeCollapse" aria-expanded="false" aria-controls="overtimeCollapse">
+    ${overtimeStr.split(",").join("&nbsp;&nbsp;&nbsp;")}
+    </div>
   
     <div class="collapse" id="overtimeCollapse">
       ${table(
@@ -287,12 +300,12 @@ function summation({
 
   // 月盈亏
   let restHtml = `
-<div class="row">
+<div class="row" style="font-size: 20px;margin-bottom: 10px;margin-top: 20px;">
   <div class="col-3">
-  月盈亏 ( =实际工作 - 应该工作 )
+  月盈亏 <span style="font-size: 14px;">( =实际工作 - 应该工作 )</span>
   </div>
-  <div class="col">
-    ${restStr}
+  <div class="col text-primary">
+  ${restStr}
   </div>
 </div>
 
@@ -317,8 +330,8 @@ function summation({
 
   return `
 <div class="container">
-  ${todayHtml}
   ${restHtml}
+  ${todayHtml}
   ${absenteeismHtml}
   ${overtimeHtml}
 </div>

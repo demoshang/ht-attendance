@@ -354,7 +354,7 @@ function render(result) {
     );
   }
 
-  const tableHtml = table(dayAttendances, columns, lineBackground);
+  const tableHtml = table(dayAttendances.reverse(), columns, lineBackground);
 
   wrap2document(
     `${summation(result)}

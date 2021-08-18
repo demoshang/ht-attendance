@@ -3,7 +3,7 @@ import { formatDate, getMonthRange } from "./utils.mjs";
 
 // 获取签到记录, 同源限制
 async function getSignRecord(userNo, from, to) {
-  const url = `https://oa.hengtonggroup.com.cn/kaizen/jsp/KaoQinResultData.jsp?r=0.03938942323541239&userNo=${userNo}&fromDate=${from}&toDate=${to}&_search=false&nd=1606438066840&rows=-1&page=1&sidx=ID&sord=asc`;
+  const url = `https://oa.hengtonggroup.com.cn/kaizen/jsp/KaoQinResultData.jsp?r=0.03938942323541239&userNo=${userNo}&fromDate=${from}&toDate=${to}&_search=false&nd=${Date.now()}&rows=-1&page=1&sidx=ID&sord=asc`;
 
   const res = await fetch(url);
   const json = await res.json();

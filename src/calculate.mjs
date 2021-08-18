@@ -35,13 +35,14 @@ function calculate(dayAttendances, workHour = 8, breakHour = 2) {
       // 应当需要工作
       needMillSeconds += h * MILL_SECONDS_HOURS;
 
-      // 实际工作
-      realMillSeconds += workMillSeconds;
-
       // 缺勤
-      if (workMillSeconds === 0) {
+      // 工作时间小于1小时都算缺勤
+      if (workMillSeconds <= MILL_SECONDS_HOURS) {
         absenteeismDate.push(dateStr);
         absenteeismList.push(item);
+      } else {
+        // 实际工作
+        realMillSeconds += workMillSeconds;
       }
     }
     // 加班

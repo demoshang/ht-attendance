@@ -205,9 +205,9 @@ ${v
 const lineBackground = (item) => {
   if (item.workMillSeconds > 0 && !item.isWorkday) {
     return `style="background: #20c997"`;
-  } else if (item.workMillSeconds === 0 && item.isWorkday) {
+  } else if (item.workMillSeconds < 1 * 60 * 60 * 1000 && item.isWorkday) {
     return `style="background: #EA868F"`;
-  } else if (item.workMillSeconds === 0 && !item.isWorkday) {
+  } else if (item.workMillSeconds < 1 * 60 * 60 * 1000 && !item.isWorkday) {
     return `style="background: #F8F9FA"`;
   } else if (item.workMillSeconds < 10 * 60 * 60 * 1000) {
     return `style="background: #FFF3CD"`;

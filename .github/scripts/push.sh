@@ -26,12 +26,14 @@ function get_private_repo() {
 
 function push() {
   cd dist
+  local tagVersion=$(date '+%y.%m.%d.%H.%M')
   git config --global init.defaultBranch main
   git init
   git remote add action $(get_private_repo)
   git add -A
   git commit -m "更新脚本" || true
-  git push action main:gh-pages -f
+  git tag ${tagVersion}
+  git push action main:gh-pages -f --tag ${tagVersion}
 }
 
 push

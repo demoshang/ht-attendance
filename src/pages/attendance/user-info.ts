@@ -1,4 +1,4 @@
-import { checkIsValidMonth } from '@/utils/date';
+import { checkIsValidMonth, formatDate } from '@/utils/date';
 
 function getUserInfo() {
   // 如果存在mock数据, 直接返回
@@ -9,7 +9,10 @@ function getUserInfo() {
     };
   }
 
-  const monthStr = prompt('请输入计算月份, 如 202101, 确定后请等待3秒左右');
+  const monthStr = prompt(
+    '请输入计算月份, 如 202101, 确定后请等待3秒左右',
+    formatDate('YYYYMM', new Date()),
+  );
 
   if (!monthStr || !checkIsValidMonth(monthStr)) {
     alert(`输入月份${monthStr}不正确`);

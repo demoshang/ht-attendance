@@ -1,12 +1,11 @@
-import './pre-check';
-
+import '@/pre-check';
 import { combineLatest, from } from 'rxjs';
 import { render } from 'solid-js/web';
-import { subject } from 'src/pages/data-subject';
 import { getDayAttendances } from './attendance/month-record';
 import { getUserInfo } from './attendance/user-info';
 import { calculate } from './calculate';
 import Summary from './components/Summary';
+import { subject } from './data-subject';
 import { loadTip } from './pre-check/tooltip';
 import { transformRecord } from './tag-record';
 

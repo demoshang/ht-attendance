@@ -42,7 +42,7 @@ async function getBuildVersion() {
 
       await writeFile(
         filepath,
-        input.replace(/(['"])__INJECT_VERSION__\1/, JSON.stringify(version)),
+        input.replace(/(['"]*)__INJECT_VERSION__\1/g, JSON.stringify(version)),
       );
     }),
   );

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <style>
+      p {
+        margin: 8px 0;
+      }
+    </style>
+  </head>
+
+  <body style="display: flex; flex-direction: column; align-items: center">
+    <div style="margin-top: 100px">
+      <a
+        href='javascript: (()=>{const script = document.createElement("script"); script.setAttribute("type", "text/javascript"); script.setAttribute("src", "https://cdn.jsdelivr.net/gh/demoshang/ht-check-in@gh-pages/latest.js?now=" + Date.now()); document.body.appendChild(script)})()'
+        style="
+          background-color: #4caf50;
+          border: none;
+          color: white;
+          padding: 8px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          border-radius: 12px;
+          box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        "
+        >打卡统计</a
+      >
+    </div>
+
+    <h3>
+      <p>将上面的 打卡统计 链接拖拽到书签栏</p>
+      <p>
+        进入
+        <a href="https://oa.hengtonggroup.com.cn/wui/main.jsp" target="_blank">oa系统</a>
+        并登录
+      </p>
+
+      <p>点击书签栏上 打卡统计 书签, 按提醒操作</p>
+
+      <p>当前版本: __INJECT_VERSION__</p>
+    </h3>
+
+    <script>
+      const HT_ATTENDANCE_MOCK_DATA = [
+        { AttendanceDateTime: '2021-11-01 08:55:59', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-01 19:00:52', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-02 09:50:22', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-02 20:29:12', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-03 09:52:52', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-04 08:36:16', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-04 19:53:15', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-05 09:46:02', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-05 19:00:40', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-08 09:13:01', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-08 20:30:15', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-09 09:48:00', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-09 20:52:14', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-10 09:50:26', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-17 08:51:51', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-17 19:02:56', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-17 19:02:57', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-18 08:48:26', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-18 20:35:29', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-18 20:35:30', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-19 09:42:09', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-19 09:42:50', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-19 16:59:21', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-19 16:59:29', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-22 08:58:55', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-22 19:52:19', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-22 19:52:20', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-23 09:44:56', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-23 09:45:43', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-23 20:31:55', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-23 20:31:58', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-24 09:46:30', NAME: '', userNo: '' },
+        { AttendanceDateTime: '2021-11-24 09:46:42', NAME: '', userNo: '' },
+      ];
+    </script>
+
+    <script>
+      console.log('__INJECT_VERSION__');
+    </script>
+  </body>
+</html>

@@ -28,6 +28,14 @@ function getContainer() {
   return container;
 }
 
+function rmContainer() {
+  const ele = document.querySelector<HTMLDivElement>('#ht-attendance-container');
+
+  if (ele) {
+    document.body.removeChild(ele);
+  }
+}
+
 function getRoot() {
   const container = getContainer();
 
@@ -56,7 +64,7 @@ combineLatest([from(getBaseRecords()), subject]).subscribe(([br, v]) => {
   console.log('============rerender by======', v);
 
   if (v?.type === 'close') {
-    getRoot();
+    rmContainer();
     return;
   }
 

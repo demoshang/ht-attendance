@@ -9,16 +9,38 @@ import { subject } from './data-subject';
 import { loadTip } from './pre-check/tooltip';
 import { transformRecord } from './tag-record';
 
-function getRoot() {
-  let root = document.querySelector('#ht-attendance-root');
+function getContainer() {
+  const ele = document.querySelector<HTMLDivElement>('#ht-attendance-container');
 
-  if (root) {
-    document.body.removeChild(root);
+  if (ele) {
+    return ele;
   }
 
-  root = document.createElement('div');
+  const container = document.createElement('div');
+  container.id = 'ht-attendance-container';
+  container.setAttribute(
+    'style',
+    'position: fixed; top:0; right: 0; bottom: 0; left: 0; overflow: scroll;    background-color: white; z-index: 999998; padding: 0 100px;',
+  );
+
+  document.body.appendChild(container);
+
+  return container;
+}
+
+function getRoot() {
+  const container = getContainer();
+
+  const root = document.createElement('div');
   root.id = 'ht-attendance-root';
-  document.body.appendChild(root);
+
+  const old = document.querySelector<HTMLDivElement>('#ht-attendance-root');
+
+  container.appendChild(root);
+
+  if (old) {
+    container.removeChild(old);
+  }
 
   return root;
 }

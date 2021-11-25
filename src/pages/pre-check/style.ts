@@ -5,6 +5,10 @@ function addStyle() {
 #ht-attendance-root .btn-sm {
   font-size: 12px !important;
 }
+
+.bs-tooltip-top {
+  z-index: 999999;
+}
 `;
 
   document.head.appendChild(ele);

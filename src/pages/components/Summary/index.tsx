@@ -27,7 +27,7 @@ const Summary = ({ raw }: { raw: CalculateResult | undefined | null }) => {
   } = raw;
 
   return (
-    <div style="position: fixed; top:0; right: 0; bottom: 0; left: 0; overflow: scroll;    background-color: white; z-index: 999999; padding: 0 100px;">
+    <div>
       <div style="display: flex;justify-content: flex-end; position: fixed; top: 10px; right: 60px;">
         <button
           className="btn btn-secondary"

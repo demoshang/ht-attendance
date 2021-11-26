@@ -15,6 +15,8 @@ declare global {
 
   const bootstrap: any;
 
+  const NODE_ENV: 'development' | 'production';
+
   interface Document {
     webkitHidden: boolean;
   }

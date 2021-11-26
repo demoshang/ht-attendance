@@ -27,6 +27,7 @@ module.exports = merge(common, {
   plugins: [
     new webpack.DefinePlugin({
       DOMAIN: 'http://localhost',
+      NODE_ENV: JSON.stringify('development'),
     }),
     // new ErudaPlugin({ force: true }),
   ],

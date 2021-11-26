@@ -47,11 +47,13 @@ module.exports = merge(common, {
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: ['**/*', '!.git'],
     }),
-    new webpack.DefinePlugin({}),
-    new MiniCssExtractPlugin({
-      filename: '[name].[chunkhash:8].css',
-      chunkFilename: '[id].css',
+    new webpack.DefinePlugin({
+      NODE_ENV: JSON.stringify('production'),
     }),
+    // new MiniCssExtractPlugin({
+    //   filename: '[name].[chunkhash:8].css',
+    //   chunkFilename: '[id].css',
+    // }),
     // new HTMLInlineCSSWebpackPlugin(),
     // new BundleAnalyzerPlugin(),
   ],

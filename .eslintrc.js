@@ -14,6 +14,7 @@ module.exports = {
     // myGlobal: false
 
     DOMAIN: false,
+    NODE_ENV: false,
 
     HT_ATTENDANCE_MOCK_DATA: false,
 

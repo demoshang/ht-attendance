@@ -1,54 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-const glob = require('glob');
 const path = require('path');
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
-const WebpackCdnPlugin = require('webpack-cdn-plugin');
-const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
-// const multiPages = glob.sync('./src/pages/**/*.html').map((filepath) => {
-//   const { dir } = path.parse(filepath);
-
-//   let config;
-//   try {
-//     config = require(path.resolve(dir, 'index.config.json'));
-//   } catch (e) {
-//     config = {};
-//   }
-
-//   return {
-//     dir,
-//     base: path.basename(dir),
-//     filepath,
-//     config,
-//   };
-// });
-
-// const multiEntry = Object.fromEntries(
-//   multiPages.map(({ base, dir }) => {
-//     return [base, [`${dir}/index.tsx`]];
-//   }),
-// );
-
-// const multiHTMLPlugins = multiPages.map(({ config, base, dir }) => {
-//   return {
-//     title: config.title ?? '',
-//     filename: `${base}.html`, // Output
-//     template: `${dir}/index.html`, // Input
-//     chunks: [base],
-//   };
-// });
-
-const multiHTMLPlugins = [
-  {
-    title: '',
-    filename: 'index.html',
-    template: './src/pages/index.html',
-    chunks: ['index'],
-  },
-];
 
 module.exports = {
   entry: {
@@ -97,54 +50,6 @@ module.exports = {
         },
       ],
     }),
-
-    ...multiHTMLPlugins.map((v) => {
-      return new HTMLWebpackPlugin(v);
-    }),
-
-    // new HtmlWebpackTagsPlugin({
-    //   append: false,
-    //   links: [
-    //     '//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css',
-    //     '//cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.min.css',
-    //   ],
-    //   scripts: [],
-    // }),
-    // new WebpackCdnPlugin({
-    //   prodUrl: '//cdn.jsdelivr.net/npm/:name@:version/dist/:path',
-    //   prod: true,
-    //   modules: [
-    //     // {
-    //     //   name: 'clipboard',
-    //     //   var: 'ClipboardJS',
-    //     //   cdn: 'clipboard',
-    //     //   path: 'clipboard.min.js',
-    //     // },
-    //     // {
-    //     //   name: 'localforage',
-    //     //   path: 'localforage.nopromises.min.js',
-    //     // },
-    //     // {
-    //     //   name: 'source-map',
-    //     //   var: 'sourceMap',
-    //     //   path: 'source-map.js',
-    //     //   prod: true,
-    //     // },
-    //     // {
-    //     //   name: 'jszip',
-    //     //   var: 'JSZip',
-    //     //   cdn: 'jszip',
-    //     //   path: 'jszip.min.js',
-    //     // },
-    //     {
-    //       name: 'rxjs',
-    //       var: 'rxjs',
-    //       path: 'bundles/rxjs.umd.min.js',
-    //       // path: 'not include',
-    //     },
-    //   ],
-    //   publicPath: '/node_modules',
-    // }),
   ],
   stats: {
     colors: true,

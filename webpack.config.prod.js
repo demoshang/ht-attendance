@@ -5,7 +5,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
-const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').default;
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const common = require('./webpack.config.common.js');
@@ -50,11 +51,14 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify('production'),
     }),
-    // new MiniCssExtractPlugin({
-    //   filename: '[name].[chunkhash:8].css',
-    //   chunkFilename: '[id].css',
-    // }),
-    // new HTMLInlineCSSWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './src/pages/production.html',
+          to: './index.html',
+        },
+      ],
+    }),
     // new BundleAnalyzerPlugin(),
   ],
 });

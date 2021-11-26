@@ -54,13 +54,8 @@ function version2html({ branch, head, log, buildAt }) {
       await writeFile(
         filepath,
         input
-          .replace(/(['"])__INJECT_VERSION__\1/g, JSON.stringify(version))
-          .replace(/__INJECT_VERSION__/g, version2html(version))
-          .replace(
-            /__PRO_INJECT__/g,
-            `<script>window.prompt = ()=> {}; window.alert=()=>{};</script>`,
-          )
-          .replace('HT_ATTENDANCE_MOCK_DATA', 'HT_ATTENDANCE_MOCK_DATA_2'),
+          .replace(/(['"])__INJECT_JSON_VERSION__\1/g, JSON.stringify(version))
+          .replace(/__INJECT_HTML_VERSION__/g, version2html(version)),
       );
     }),
   );

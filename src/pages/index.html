@@ -11,38 +11,6 @@
   </head>
 
   <body style="display: flex; flex-direction: column; align-items: center">
-    <div style="margin-top: 100px">
-      <a
-        href='javascript: (()=>{const script = document.createElement("script"); script.setAttribute("type", "text/javascript"); script.setAttribute("src", "https://cdn.jsdelivr.net/gh/demoshang/ht-check-in@gh-pages/latest.js?now=" + Date.now()); document.body.appendChild(script)})()'
-        style="
-          background-color: #4caf50;
-          border: none;
-          color: white;
-          padding: 8px 20px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 16px;
-          border-radius: 12px;
-          box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        "
-        >打卡统计</a
-      >
-    </div>
-
-    <h3>
-      <p>将上面的 打卡统计 链接拖拽到书签栏</p>
-      <p>
-        进入
-        <a href="https://oa.hengtonggroup.com.cn/wui/main.jsp" target="_blank">oa系统</a>
-        并登录
-      </p>
-
-      <p>点击书签栏上 打卡统计 书签, 按提醒操作</p>
-
-      <p>__INJECT_VERSION__</p>
-    </h3>
-
     <script>
       const HT_ATTENDANCE_MOCK_DATA = [
         { AttendanceDateTime: '2021-11-01 08:55:59', NAME: '', userNo: '' },
@@ -79,12 +47,6 @@
         { AttendanceDateTime: '2021-11-24 09:46:30', NAME: '', userNo: '' },
         { AttendanceDateTime: '2021-11-24 09:46:42', NAME: '', userNo: '' },
       ];
-    </script>
-
-    __PRO_INJECT__
-    
-    <script>
-      console.log('__INJECT_VERSION__');
     </script>
   </body>
 </html>

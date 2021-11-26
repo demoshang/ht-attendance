@@ -5,7 +5,7 @@ specifiers:
   '@babel/plugin-transform-runtime': ^7.16.0
   '@babel/preset-env': ^7.16.0
   '@babel/preset-typescript': ^7.16.0
-  '@babel/runtime': ^7.16.0
+  '@babel/runtime': ^7.16.3
   '@s4p/eslint-config': 5.1.1
   '@types/lodash': ^4.14.176
   '@typescript-eslint/eslint-plugin': 5.3.0
@@ -16,6 +16,7 @@ specifiers:
   clean-webpack-plugin: ^4.0.0-alpha.0
   concurrently: ^6.3.0
   copy-webpack-plugin: 9.0.1
+  core-js: ^3.19.1
   css-loader: 6.5.0
   css-minimizer-webpack-plugin: 3.1.1
   eslint: 8.1.0
@@ -52,7 +53,8 @@ specifiers:
   webpack-merge: ^5.8.0
 
 dependencies:
-  '@babel/runtime': 7.16.0
+  '@babel/runtime': 7.16.3
+  core-js: 3.19.1
   rxjs: 7.4.0
   solid-js: 1.2.5
 
@@ -1243,8 +1245,8 @@ packages:
       - supports-color
     dev: true
 
-  /@babel/runtime/7.16.0:
-    resolution: {integrity: sha512-Nht8L0O8YCktmsDV6FqFue7vQLRx3Hb0B37lS5y0jDRqRxlBG4wIJHnf9/bgSE2UyipKFA01YtS+npRdTWBUyw==}
+  /@babel/runtime/7.16.3:
+    resolution: {integrity: sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
@@ -2468,6 +2470,11 @@ packages:
       browserslist: 4.17.5
       semver: 7.0.0
     dev: true
+
+  /core-js/3.19.1:
+    resolution: {integrity: sha512-Tnc7E9iKd/b/ff7GFbhwPVzJzPztGrChB8X8GLqoYGdEOG8IpLnK1xPyo3ZoO3HsK6TodJS58VGPOxA+hLHQMg==}
+    requiresBuild: true
+    dev: false
 
   /core-util-is/1.0.2:
     resolution: {integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=}
@@ -5760,7 +5767,7 @@ packages:
   /regenerator-transform/0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}
     dependencies:
-      '@babel/runtime': 7.16.0
+      '@babel/runtime': 7.16.3
     dev: true
 
   /regex-parser/2.2.11:

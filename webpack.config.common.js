@@ -55,4 +55,9 @@ module.exports = {
     colors: true,
   },
   devtool: 'source-map',
+  performance: {
+    assetFilter: (assetFilename) => {
+      return !/\.map$|^static\//.test(assetFilename);
+    },
+  },
 };

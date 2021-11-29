@@ -24,16 +24,38 @@ function get_private_repo() {
   echo "https://$(get_user):${GITHUB_TOKEN:-}@github.com/${GITHUB_REPOSITORY}.git"
 }
 
+function add_cname() {
+  if [ -n "${CNAME:-}" ]; then
+    echo "" >${CNAME}
+  fi
+}
+
+function tag_push() {
+  local input_tag=${TAG:-}
+
+  if [[ "${input_tag}" = "false" || "${input_tag}" = "FALSE" ]]; then
+    git push action main:gh-pages -f
+  elif [ -z "${input_tag}" ]; then
+    local tag_version=$(date '+%y.%m.%d.%H.%M')
+    git tag ${tag_version}
+    git push action main:gh-pages -f --tag ${tag_version}
+  else
+    git tag ${input_tag}
+    git push action main:gh-pages -f --tag ${input_tag}
+  fi
+}
+
 function push() {
-  cd dist
+  cd ${PUBLISH_DIR:-dist}
+
   local tagVersion=$(date '+%y.%m.%d.%H.%M')
   git config --global init.defaultBranch main
   git init
   git remote add action $(get_private_repo)
+  add_cname
   git add -A
   git commit -m "更新脚本" || true
-  git tag ${tagVersion}
-  git push action main:gh-pages -f --tag ${tagVersion}
+  tag_push
 }
 
 push

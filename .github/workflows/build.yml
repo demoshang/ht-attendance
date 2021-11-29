@@ -38,11 +38,18 @@ jobs:
 
       - name: build gh-pages
         working-directory: ./
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
         run: |
           node .github/scripts/replace.js
           pnpm run build
           cp dist/index.*.js dist/latest.js
+
+      - name: Deploy
+        working-directory: ./
+        if: ${{ github.ref == 'refs/heads/dev' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+          PUBLISH_DIR: dist
+          # CNAME:
+        run: |
           bash .github/scripts/push.sh

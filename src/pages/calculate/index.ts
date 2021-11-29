@@ -62,7 +62,6 @@ function calculate(
       isPersonalLeave,
       isTagStartCheckIn,
       isTagEndCheckIn,
-      tagCheckInWorkMillSeconds,
       isAbsenteeism,
       isOverTime,
       dateStr,
@@ -79,12 +78,8 @@ function calculate(
       }
 
       // 缺勤, 但是手动修改了时间
-      else if (
-        isAbsenteeism &&
-        (isTagStartCheckIn || isTagEndCheckIn) &&
-        tagCheckInWorkMillSeconds
-      ) {
-        realMillSeconds += tagCheckInWorkMillSeconds;
+      else if (isAbsenteeism && (isTagStartCheckIn || isTagEndCheckIn)) {
+        realMillSeconds += workMillSeconds;
       }
 
       // 缺勤, 工作时间小于1小时都算缺勤

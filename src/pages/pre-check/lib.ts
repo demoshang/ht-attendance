@@ -15,7 +15,7 @@ function append(ele: HTMLElement) {
 function insert(ele: HTMLElement) {
   const heads = document.getElementsByTagName('head');
   if (heads.length) {
-    heads[0].insertBefore(ele, document.querySelector('script'));
+    heads[0].insertBefore(ele, document.querySelector('script') ?? heads[0].children[0]);
   } else {
     document.documentElement.insertBefore(ele, document.querySelector('script'));
   }

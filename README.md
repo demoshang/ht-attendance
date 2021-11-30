@@ -1,8 +1,8 @@
-# [亨通打卡统计](https://demoshang.github.io/ht-check-in/)
+# [亨通打卡统计](https://demoshang.github.io/ht-attendance/)
 
 ## 使用
 
-[参照文档](https://demoshang.github.io/ht-check-in/)
+[参照文档](https://demoshang.github.io/ht-attendance/)
 
 ## 开发
 

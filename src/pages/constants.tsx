@@ -1,4 +1,4 @@
-import { formatDate } from '@/utils/date';
+import { format2hourMinute, formatDate } from '@/utils/date';
 import 'solid-js/web';
 import Actions from './components/Actions';
 import { Column } from './components/RecordTable';
@@ -26,9 +26,8 @@ const BaseColumns: Column[] = [
         return '';
       }
 
-      const [h1, h2] = (v / (1 * 60 * 60 * 1000)).toFixed(2).split('.');
-
-      return `${h1}小时${((parseInt(h2, 10) * 60) / 100).toFixed(0)}分钟`;
+      const { hour, minute } = format2hourMinute(v);
+      return `${hour}小时${minute}分钟`;
     },
   },
   {

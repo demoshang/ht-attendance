@@ -3,11 +3,13 @@ import { TagRecord } from '../../tag-record';
 import RecordTable, { Column } from '../RecordTable';
 
 const CollapseTable = ({
+  key,
   title,
   dateStr,
   rows,
   columns,
 }: {
+  key: string;
   title: string;
   dateStr: string;
   rows: TagRecord[];
@@ -25,15 +27,15 @@ const CollapseTable = ({
           }}
           className="btn btn-link text-danger"
           data-bs-toggle="collapse"
-          data-bs-target="#absenteeismCollapse"
+          data-bs-target={`#${key}`}
           aria-expanded="false"
-          aria-controls="absenteeismCollapse"
+          aria-controls={key}
         >
           {dateStr?.split(',')?.map((v) => {
             return <>{v}&nbsp;&nbsp;</>;
           })}
         </div>
-        <div className="collapse" id="absenteeismCollapse">
+        <div className="collapse" id={key}>
           <RecordTable
             {...{
               rows,

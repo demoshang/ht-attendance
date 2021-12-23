@@ -1,5 +1,10 @@
 import { BREAK_HOUR, WORK_HOUR } from '@/utils/constants';
-import { formatDate, MILLISECONDS_HOURS, MILLISECONDS_MINUTES } from '@/utils/date';
+import {
+  format2hourMinute,
+  formatDate,
+  MILLISECONDS_HOURS,
+  MILLISECONDS_MINUTES
+} from '@/utils/date';
 import { toNu } from '@/utils/helper';
 import { TagRecord } from '../tag-record';
 
@@ -142,7 +147,12 @@ function calculate(
     overtimeList,
     addHours,
     addMinutes,
-    overtimeStr: `${addMinutes}分钟 ~= ${addHours}小时 ~= ${toNu(addHours / h)}天`,
+    overtimeStr: overtimeList
+      .map(({ dateStr, workMillSeconds }) => {
+        const { hour, minute } = format2hourMinute(workMillSeconds);
+        return `${dateStr} (${hour}小时${minute}分钟)`;
+      })
+      .join(','),
 
     // 应该工作
     needHours,
@@ -164,3 +174,4 @@ function calculate(
 }
 
 export { calculate, CalculateResult };
+

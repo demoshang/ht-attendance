@@ -1,3 +1,5 @@
+import { toNu } from './helper';
+
 const MILLISECONDS_HOURS = 60 * 60 * 1000;
 const MILLISECONDS_MINUTES = 60 * 1000;
 
@@ -62,11 +64,19 @@ function startOfHour(when: Date, hour: number) {
   return date;
 }
 
+function format2hourMinute(millSeconds: number) {
+  const hour = toNu(millSeconds / MILLISECONDS_HOURS, 0);
+  const minute = toNu((millSeconds % MILLISECONDS_HOURS) / MILLISECONDS_MINUTES, 0);
+
+  return { hour, minute };
+}
+
 export {
   checkIsValidMonth,
   getMonthRange,
   formatDate,
   startOfHour,
+  format2hourMinute,
   MILLISECONDS_HOURS,
   MILLISECONDS_MINUTES,
 };

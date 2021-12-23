@@ -103,6 +103,7 @@ const Summary = ({ raw }: { raw: CalculateResult | undefined | null }) => {
 
       <CollapseTable
         {...{
+          key: 'absenteeism',
           title: '缺勤(未标记时间/请假)',
           dateStr: absenteeismStr,
           rows: absenteeismList,
@@ -112,6 +113,7 @@ const Summary = ({ raw }: { raw: CalculateResult | undefined | null }) => {
 
       <CollapseTable
         {...{
+          key: 'overtime',
           title: '加班',
           dateStr: overtimeStr,
           rows: overtimeList,

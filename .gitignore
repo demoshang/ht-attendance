@@ -60,3 +60,4 @@ typings/
 # gitignore dist folder
 dist
 .vscode/settings.json
+tools/holiday/r.json

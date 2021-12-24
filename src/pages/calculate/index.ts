@@ -3,7 +3,7 @@ import {
   format2hourMinute,
   formatDate,
   MILLISECONDS_HOURS,
-  MILLISECONDS_MINUTES
+  MILLISECONDS_MINUTES,
 } from '@/utils/date';
 import { toNu } from '@/utils/helper';
 import { TagRecord } from '../tag-record';
@@ -174,4 +174,3 @@ function calculate(
 }
 
 export { calculate, CalculateResult };
-

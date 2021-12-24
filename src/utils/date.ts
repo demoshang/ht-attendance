@@ -65,8 +65,8 @@ function startOfHour(when: Date, hour: number) {
 }
 
 function format2hourMinute(millSeconds: number) {
-  const hour = toNu(millSeconds / MILLISECONDS_HOURS, 0);
-  const minute = toNu((millSeconds % MILLISECONDS_HOURS) / MILLISECONDS_MINUTES, 0);
+  const hour = Math.floor(millSeconds / MILLISECONDS_HOURS);
+  const minute = Math.floor((millSeconds % MILLISECONDS_HOURS) / MILLISECONDS_MINUTES);
 
   return { hour, minute };
 }
